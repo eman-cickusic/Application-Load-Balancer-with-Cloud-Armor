@@ -1,0 +1,38 @@
+# ===== provider.tf =====
+terraform {
+  required_version = ">= 1.0"
+  
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+variable "project_id" {
+  description = "The GCP project ID"
+  type        = string
+}
+
+variable "region" {
+  description = "The default GCP region"
+  type        = string
+  default     = "us-central1"
+}
+
+# ===== managementnet.tf =====
+# Create the managementnet network
+resource "google_compute_network" "managementnet" {
+  name                    = "managementnet"
+  auto_create_subnetworks = false
+}
+
+# Create managementsubnet-us subnetwork
+resource "google_compute_subnetwork" "managementsubnet-us" {
+  name          = "managementsubnet-us
